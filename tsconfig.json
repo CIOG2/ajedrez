@@ -36,7 +36,16 @@
       ],
       "@database/*": [
         "database/*"
-      ]
+      ],
+      "@utils/*": [
+        "Utils/*"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
+      "@datos/*": [
+        "datos/*"
+      ],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
