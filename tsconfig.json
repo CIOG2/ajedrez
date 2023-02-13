@@ -38,7 +38,7 @@
         "database/*"
       ],
       "@utils/*": [
-        "Utils/*"
+        "utils/*"
       ],
       "@hooks/*": [
         "hooks/*"
