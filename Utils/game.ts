@@ -1,6 +1,8 @@
+import ChessPiece from './pieceChess';
+import pawn from './pawn';
 import { pieceChess } from '@interfaces/index';
 
-class game {
+class game{
     virtualBoard:any[] = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -15,18 +17,7 @@ class game {
     startGame(data:pieceChess[]) {
         data.map((piece) => {
             piece.initialPosition.map((position) => {
-                const element = document.querySelector(`#${position}`);
-                if (element) {
-                    element.innerHTML = `<img src="${piece.path}" alt="${piece.name} ${piece.color}" />`;
-                    element.addEventListener('click', () => {
-                        console.log(position);
-                    });
-                }
-       
-                const y = this.letterToNumber(position[0]);
-                const x = parseInt(position[1]) - 1;
-                
-                this.virtualBoard[y][x] = `${piece.name} ${piece.color}`;
+                this.assignPosition(piece, position);            
             });
         });
         
@@ -34,11 +25,26 @@ class game {
         button?.remove();    
         console.table(this.virtualBoard);
     }
-    
-    letterToNumber(letter:string) {
-        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-        return letters.indexOf(letter);
+
+    assignPosition({name, path, color}:pieceChess, position:string) {
+        
+        const y = this.letterToNumber(position[0]);
+        const x = parseInt(position[1]) - 1;
+        let piece;
+
+        if (name === 'pawn') {
+            piece = new pawn({name, path, color, position});
+            piece.generetePiece();
+        }else{
+            piece = new ChessPiece({name, path, color, position});
+        }
+        
+        this.virtualBoard[y][x] = piece;
+        piece.updateVirtualBoard(this.virtualBoard);    
     }
+
+    numberToLetter = (number: number) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][number];    
+    letterToNumber = (letter:string) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].indexOf(letter);
 }
 
 export default game;
