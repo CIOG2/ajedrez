@@ -14,6 +14,8 @@ class game{
         [0, 0, 0, 0, 0, 0, 0, 0],
     ];
 
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
     startGame(data:pieceChess[]) {
         data.map((piece) => {
             piece.initialPosition.map((position) => {
@@ -43,8 +45,8 @@ class game{
         piece.updateVirtualBoard(this.virtualBoard);    
     }
 
-    numberToLetter = (number: number) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][number];    
-    letterToNumber = (letter:string) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].indexOf(letter);
+    numberToLetter = (number: number) => this.letters[number];    
+    letterToNumber = (letter:string) => this.letters.indexOf(letter);
 }
 
 export default game;
