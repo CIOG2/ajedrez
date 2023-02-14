@@ -9,7 +9,6 @@ interface constructorChess {
 
 }
 
-
 class ChessPiece{
     virtualBoard:any[] = [];
     positionAvailable: string[] = [];
@@ -18,6 +17,8 @@ class ChessPiece{
     name: string = '';
     path: string = '';
     position: string = '';
+
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
      constructor({name, path, color, position}: constructorChess) {
         this.name = name;
@@ -28,7 +29,8 @@ class ChessPiece{
 
     deletePieceDom = (position: string) => {
         const element = document.getElementById(position)!;
-        element.innerHTML = '';
+        const child = element.childElementCount > 0 ? element.children[0] : null;
+        if (child) child.remove();
     }
 
     deletePieceVirtualBoard = (position: string) => {
@@ -43,29 +45,25 @@ class ChessPiece{
         this.virtualBoard[y][x] = piece;
     }
 
-    copyPieceVirtualBoard = (position: string) =>{
+    copyPieceVirtualBoard = (position: string) => {
         const y = this.letterToNumber(position[0]);
         const x = parseInt(position[1]) - 1;
         return this.virtualBoard[y][x];
     }
-    
 
     removePositionAvailable = () => {
-        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-
-        letters.map((letter) => {
-            for (let i = 1; i <= 8; i++) {
+        this.letters.map((letter) => {
+            for(let i = 1; i <= 8; i++) {
                 const element = document.getElementById(`${letter}${i}`)!;
                 const child = element.querySelector('div');
                 if (child) child.remove();
             }
-        })
-
+        });        
     }
 
-    numberToLetter = (number: number) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][number];    
+    numberToLetter = (number: number) => this.letters[number];    
     
-    letterToNumber = (letter:string) => ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].indexOf(letter);
+    letterToNumber = (letter:string) => this.letters.indexOf(letter);
     
     updateVirtualBoard = (virtualBoard:any[][]) => this.virtualBoard = virtualBoard;
 }
