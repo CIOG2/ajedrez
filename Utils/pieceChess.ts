@@ -52,15 +52,29 @@ class ChessPiece{
     }
 
     removePositionAvailable = () => {
-        this.letters.map((letter) => {
-            for(let i = 1; i <= 8; i++) {
-                const element = document.getElementById(`${letter}${i}`)!;
-                const child = element.querySelector('div');
-                if (child) child.remove();
-            }
-        });        
+        const avalibleMoves = document.querySelectorAll('.position__available');
+        
+        if (avalibleMoves) 
+            avalibleMoves.forEach((element) => element.remove());
+
+        const pieceSelet = document.querySelector('.piece__selected--to-move');
+        if (pieceSelet) pieceSelet.remove();
+    }
+    
+    pieceSelected = (position: string) => {
+        const piece = document.getElementById(position);
+        const pieceSelected = document.createElement('div');
+        pieceSelected.classList.add('piece__selected--to-move');
+        piece?.appendChild(pieceSelected);
     }
 
+    removePositionAvailableToEat = () => {
+        const avalibleMoves = document.querySelectorAll('.position__available--eat');
+        
+        if (avalibleMoves) 
+            avalibleMoves.forEach((element) => element.remove());
+    }
+    
     numberToLetter = (number: number) => this.letters[number];    
     
     letterToNumber = (letter:string) => this.letters.indexOf(letter);
