@@ -32,7 +32,8 @@ class pawn extends ChessPiece{
             const div = document.createElement('div');
             div.classList.add('position__available');
             div.addEventListener('click', () => {
-                this.movePieceBoard(this.position, posicionAvalible);  
+                this.firstMove = false;
+                this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
             });
 
             element.innerHTML = '';
@@ -41,22 +42,7 @@ class pawn extends ChessPiece{
     }
 
 
-    movePieceBoard = (position: string, nextPosition: string) => {
-        this.firstMove = false;
-        const piece = this.copyPieceVirtualBoard(position);
-        this.deletePieceDom(position);
-        this.position = nextPosition;
-        this.deletePieceVirtualBoard(position);
-        this.addPieceVirtualBoard(nextPosition, piece);
-        this.removePositionAvailable();
-        this.removePositionAvailableToEat();
-        this.generetePiece();
-        console.table(this.virtualBoard);
-    }
-
-
     previewMove = () => {
-
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
         this.moveAvailable();
@@ -138,25 +124,6 @@ class pawn extends ChessPiece{
         }
     }
 
-    pieceInThisPosition = (position: string) => {
-        const y = this.letterToNumber(position[0]);
-        const x = parseInt(position[1]) - 1;
-
-        if (y < 0 || y > 7 || x < 0 || x > 7)
-            return false;
-
-
-        return (this.virtualBoard[y][x]) ? true : false;
-    }
-
-    pieceAvalibleToEat = (position: string) => {
-        if (this.pieceInThisPosition(position)) {
-            const y = this.letterToNumber(position[0]);
-            const x = parseInt(position[1]) - 1;
-            if (this.virtualBoard[y][x].color !== this.color)
-                this.positionAvailableEat.push(position);
-        }
-    }
 
     showPositionAvailableToEat = () => {
         this.positionAvailableEat.forEach((posicionAvalible) => {
@@ -167,7 +134,8 @@ class pawn extends ChessPiece{
                 const div = document.createElement('div');
                 div.classList.add('position__available--eat');
                 div.addEventListener('click', () => {
-                    this.movePieceBoard(this.position, posicionAvalible);  
+                    this.firstMove = false;
+                    this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
                 });
     
                 element.appendChild(div);
