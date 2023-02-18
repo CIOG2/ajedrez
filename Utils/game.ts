@@ -1,5 +1,6 @@
 import ChessPiece from './pieceChess';
 import pawn from './pawn';
+import horse from './horse';
 import { pieceChess } from '@interfaces/index';
 
 class game{
@@ -36,6 +37,9 @@ class game{
 
         if (name === 'pawn') {
             piece = new pawn({name, path, color, position});
+            piece.generetePiece();
+        } else if(name === 'horse'){
+            piece = new horse({name, path, color, position});
             piece.generetePiece();
         }else{
             piece = new ChessPiece({name, path, color, position});
