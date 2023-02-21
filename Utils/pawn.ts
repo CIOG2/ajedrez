@@ -1,9 +1,7 @@
 import ChessPiece from "./pieceChess";
 
 class pawn extends ChessPiece{
-
-    firstMove: boolean = true;
-
+    
     constructor({name, path, color, position}:any) {
         super({name, path, color, position});
     }
@@ -17,28 +15,8 @@ class pawn extends ChessPiece{
         image.classList.add('image__piece');
         image.addEventListener('click', () => this.previewMove());
 
-        // const div = document.createElement('div');
-        // div.classList.add('piece__selected--to-move');
-        // element.appendChild(div);
-
         element.innerHTML = '';      
         element.appendChild(image);
-    }
-
-
-    showPositionAvailable = () => {
-        this.positionAvailable.forEach((posicionAvalible) => {
-            const element = document.getElementById(posicionAvalible)!;
-            const div = document.createElement('div');
-            div.classList.add('position__available');
-            div.addEventListener('click', () => {
-                this.firstMove = false;
-                this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
-            });
-
-            element.innerHTML = '';
-            element.appendChild(div);
-        });
     }
 
 
@@ -46,7 +24,7 @@ class pawn extends ChessPiece{
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
         this.moveAvailable();
-        this.showPositionAvailable();
+        this.showPositionAvailable(this.generetePiece);
     }
 
 
@@ -94,7 +72,7 @@ class pawn extends ChessPiece{
         const conditionOne = this.pieceInThisPosition(onePosition);
         const conditionTwo = this.pieceInThisPosition(twoPosition);
         
-        if (this.firstMove && !conditionOne && !conditionTwo)
+        if (this.firstMovePawn && !conditionOne && !conditionTwo)
             pos.push(twoPosition);
 
         if (!conditionOne)
@@ -113,36 +91,17 @@ class pawn extends ChessPiece{
             
             this.pieceAvalibleToEat(left);
             this.pieceAvalibleToEat(right);
-            this.showPositionAvailableToEat();
+            this.showPositionAvailableToEat(this.generetePiece);
         } else {
             const left = this.numberToLetter(y - 1) + (x);
             const right = this.numberToLetter(y + 1) + (x);
             
             this.pieceAvalibleToEat(left);
             this.pieceAvalibleToEat(right);
-            this.showPositionAvailableToEat();
+            this.showPositionAvailableToEat(this.generetePiece);
         }
     }
 
-
-    showPositionAvailableToEat = () => {
-        this.positionAvailableEat.forEach((posicionAvalible) => {
-            const element = document.getElementById(posicionAvalible)!;
-            const child = element.querySelector('.position__available--eat');
-
-            if (!child){     
-                const div = document.createElement('div');
-                div.classList.add('position__available--eat');
-                div.addEventListener('click', () => {
-                    this.firstMove = false;
-                    this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
-                });
-    
-                element.appendChild(div);
-            }    
-        });
-        this.positionAvailableEat = [];
-    }
 }   
 
 export default pawn;

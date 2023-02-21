@@ -23,28 +23,14 @@ class horse extends pieceChess{
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
         this.moveAvailable();
-        this.showPositionAvailable();
+        this.showPositionAvailable(this.generetePiece);
     }
     
-    showPositionAvailable = () => {
-        this.positionAvailable.forEach((posicionAvalible) => {
-            const element = document.getElementById(posicionAvalible)!;
-            const div = document.createElement('div');
-            div.classList.add('position__available');
-            div.addEventListener('click', () => {
-                this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
-            });
-
-            element.innerHTML = '';
-            element.appendChild(div);
-        });
-    }
-
     moveAvailable = () => {    
         this.pieceSelected(this.position);
 
         this.positionAvailable = this.movePiece(this.position, this.color);
-        this.showPositionAvailableToEat();
+        this.showPositionAvailableToEat(this.generetePiece);
     }
 
 
@@ -76,25 +62,6 @@ class horse extends pieceChess{
             }
         });
         return pos;    
-    }
-
-
-    showPositionAvailableToEat = () => {
-        this.positionAvailableEat.forEach((posicionAvalible) => {
-            const element = document.getElementById(posicionAvalible)!;
-            const child = element.querySelector('.position__available--eat');
-
-            if (!child){     
-                const div = document.createElement('div');
-                div.classList.add('position__available--eat');
-                div.addEventListener('click', () => {
-                    this.movePieceBoard(this.position, posicionAvalible, this.generetePiece);  
-                });
-    
-                element.appendChild(div);
-            }    
-        });
-        this.positionAvailableEat = [];
     }
 
 }
