@@ -1,3 +1,4 @@
+import pieceChessDom from "./pieceChessDom";
 // import { pieceChess } from "@interfaces/pieceChess";
 interface constructorChess {
     name: string;
@@ -7,7 +8,7 @@ interface constructorChess {
 
 }
 
-class ChessPiece{
+class ChessPiece extends pieceChessDom{
     virtualBoard:any[] = [];
     positionAvailable: string[] = [];
     positionAvailableEat: string[] = [];
@@ -19,6 +20,7 @@ class ChessPiece{
     letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
     constructor({name, path, color, position}: constructorChess) {
+        super();
         this.name = name;
         this.path = path;
         this.color = color;
@@ -35,6 +37,7 @@ class ChessPiece{
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
         generarPieza();
+        console.table(this.virtualBoard);
     }
 
 
@@ -65,16 +68,6 @@ class ChessPiece{
         return this.virtualBoard[y][x];
     }
 
-    
-    removePositionAvailable = () => {
-        const avalibleMoves = document.querySelectorAll('.position__available');
-        
-        if (avalibleMoves) 
-            avalibleMoves.forEach((element) => element.remove());
-
-        const pieceSelet = document.querySelector('.piece__selected--to-move');
-        if (pieceSelet) pieceSelet.remove();
-    }
     
 
     pieceSelected = (position: string) => {
@@ -112,6 +105,51 @@ class ChessPiece{
                 this.positionAvailableEat.push(position);
         }
     }
+
+    diagonalMove = (position: string, color: string) => {
+        this.positionAvailable = [];
+        const y = this.letterToNumber(position[0]);
+        const x = parseInt(position[1]) - 1;
+        const moves = [
+            //upRight
+            {y: 1, x: 1},
+            //upLeft
+            {y: 1, x: -1},
+            //downRight
+            {y: -1, x: 1},
+            //downLeft
+            {y: -1, x: -1} 
+        ]
+    
+        moves.forEach((move) => {
+            this.diagonalCalculate(y, x, move.y, move.x);
+        })
+    }
+
+    diagonalCalculate = (y:number, x:number, moveY:number, moveX:number ) => {
+        let canYouMove = true;
+        
+        while(canYouMove) {
+            y += moveY;
+            x += moveX;
+
+            if (y < 0 || y > 7 || x < 0 || x > 7)
+                canYouMove = false;
+            else{        
+                const position = `${this.numberToLetter(y)}${x + 1}`;
+                if (this.pieceInThisPosition(position)) {
+                    canYouMove = false;
+                    this.pieceAvalibleToEat(position);
+                } 
+                else 
+                    this.positionAvailable.push(position);
+            }
+        }
+        
+
+        this.positionAvailable;
+    }
+
 
     
     numberToLetter = (number: number) => this.letters[number];    
