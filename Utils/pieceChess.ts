@@ -1,5 +1,4 @@
 import pieceChessDom from "./pieceChessDom";
-// import { pieceChess } from "@interfaces/pieceChess";
 interface constructorChess {
     name: string;
     path: string;
@@ -9,9 +8,10 @@ interface constructorChess {
 }
 
 class ChessPiece extends pieceChessDom{
-    virtualBoard:any[] = [];
+    firstMovePawn: boolean = true;
     positionAvailable: string[] = [];
     positionAvailableEat: string[] = [];
+    virtualBoard:any[] = [];
     color: string = '';
     name: string = '';
     path: string = '';
@@ -30,16 +30,54 @@ class ChessPiece extends pieceChessDom{
 
     movePieceBoard = (position: string, nextPosition: string, generarPieza:any) => {
         const piece = this.copyPieceVirtualBoard(position);
+        if (piece.name === 'pawn')
+            piece.firstMovePawn = false;     
+        
         this.deletePieceDom(position);
+        this.removePieceMovedPreviously();
+ 
         this.position = nextPosition;
         this.deletePieceVirtualBoard(position);
         this.addPieceVirtualBoard(nextPosition, piece);
+ 
+
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
         generarPieza();
-        console.table(this.virtualBoard);
+        
+        this.movedPiecePreviously(position, nextPosition);
     }
 
+    showPositionAvailable = (generatePiece: any) => {
+        this.positionAvailable.forEach((posicionAvalible) => {
+            const element = document.getElementById(posicionAvalible)!;
+            const div = document.createElement('div');
+            div.classList.add('position__available');
+            div.addEventListener('click', () => {
+                this.movePieceBoard(this.position, posicionAvalible, generatePiece);  
+            });
+
+            element.appendChild(div);
+        });
+    }
+
+    showPositionAvailableToEat = (generetePiece: any) => {
+        this.positionAvailableEat.forEach((posicionAvalible) => {
+            const element = document.getElementById(posicionAvalible)!;
+            const child = element.querySelector('.position__available--eat');
+
+            if (!child){     
+                const div = document.createElement('div');
+                div.classList.add('position__available--eat');
+                div.addEventListener('click', () => {
+                    this.movePieceBoard(this.position, posicionAvalible, generetePiece);  
+                });
+    
+                element.appendChild(div);
+            }    
+        });
+        this.positionAvailableEat = [];
+    }
 
     deletePieceDom = (position: string) => {
         const element = document.getElementById(position)!;
@@ -66,23 +104,6 @@ class ChessPiece extends pieceChessDom{
         const y = this.letterToNumber(position[0]);
         const x = parseInt(position[1]) - 1;
         return this.virtualBoard[y][x];
-    }
-
-    
-
-    pieceSelected = (position: string) => {
-        const piece = document.getElementById(position);
-        const pieceSelected = document.createElement('div');
-        pieceSelected.classList.add('piece__selected--to-move');
-        piece?.appendChild(pieceSelected);
-    }
-
-
-    removePositionAvailableToEat = () => {
-        const avalibleMoves = document.querySelectorAll('.position__available--eat');
-        
-        if (avalibleMoves) 
-            avalibleMoves.forEach((element) => element.remove());
     }
 
 
@@ -146,7 +167,6 @@ class ChessPiece extends pieceChessDom{
             }
         }
         
-
         this.positionAvailable;
     }
 
