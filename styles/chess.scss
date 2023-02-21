@@ -10,6 +10,7 @@
     place-items: center;
     width: 100%;
     height: 100%;
+    z-index: 10;
 }
 
 .position__available::after{
@@ -50,19 +51,13 @@
     opacity: 0.5;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.piece__move--show{
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgb(0, 183, 255);
+    opacity: 0.5;
+}
