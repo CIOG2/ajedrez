@@ -48,7 +48,7 @@ class ChessPiece extends pieceChessDom{
         this.movedPiecePreviously(position, nextPosition);
     }
 
-    showPositionAvailable = (generatePiece: any) => {
+    showPositionAvailable = (generatePiece: () => void) => {
         this.positionAvailable.forEach((posicionAvalible) => {
             const element = document.getElementById(posicionAvalible)!;
             const div = document.createElement('div');
@@ -127,10 +127,9 @@ class ChessPiece extends pieceChessDom{
         }
     }
 
-    diagonalMove = (position: string, color: string) => {
-        this.positionAvailable = [];
-        const y = this.letterToNumber(position[0]);
-        const x = parseInt(position[1]) - 1;
+    diagonalMove = () => {
+        const y = this.letterToNumber(this.position[0]);
+        const x = parseInt(this.position[1]) - 1;
         const moves = [
             //upRight
             {y: 1, x: 1},
@@ -143,11 +142,30 @@ class ChessPiece extends pieceChessDom{
         ]
     
         moves.forEach((move) => {
-            this.diagonalCalculate(y, x, move.y, move.x);
+            this.calculateMove(y, x, move.y, move.x);
         })
     }
 
-    diagonalCalculate = (y:number, x:number, moveY:number, moveX:number ) => {
+    horizontalMove = () => {
+        const y = this.letterToNumber(this.position[0]);
+        const x = parseInt(this.position[1]) - 1;
+        const moves = [
+            //up
+            {y: 1, x: 0},
+            //down
+            {y: -1, x: 0},
+            //left
+            {y: 0, x: -1},
+            //right
+            {y: 0, x: 1}
+        ]
+    
+        moves.forEach((move) => {
+            this.calculateMove(y, x, move.y, move.x);
+        })
+    }
+
+    calculateMove = (y:number, x:number, moveY:number, moveX:number ) => {
         let canYouMove = true;
         
         while(canYouMove) {
@@ -170,8 +188,6 @@ class ChessPiece extends pieceChessDom{
         this.positionAvailable;
     }
 
-
-    
     numberToLetter = (number: number) => this.letters[number];    
     
     letterToNumber = (letter:string) => this.letters.indexOf(letter);
