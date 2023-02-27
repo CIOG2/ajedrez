@@ -1,3 +1,5 @@
+$size: 15px;
+
 .main{
     position: relative;
     display: flex;
@@ -5,7 +7,19 @@
     align-items: center;
     width: auto;
     height: auto;
-    border: 1px solid white;
+    margin: $size;
+
+
+    &::after{
+        position: absolute;
+        content: "";
+        width: calc(100%);
+        height: calc(100%);
+        border: $size solid #af3a3a;
+        border-radius: $size;
+        left: -$size;
+        z-index: -1;
+    }    
 }
 
 .button__start{
@@ -21,3 +35,34 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.main__simbol{
+    position: absolute;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: $size;
+
+    & > span{
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+}
+
+
+.column{
+    flex-direction: column;
+    width: $size;
+    height: 100%;
+    left: -$size;
+}
+.row{
+    bottom: -$size;
+}
+
+
+
+
+
+
