@@ -105,8 +105,3 @@ class pawn extends ChessPiece{
 }   
 
 export default pawn;
-
-
-
-
-

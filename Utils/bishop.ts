@@ -24,11 +24,12 @@ class bishop extends pieceChess{
         this.removePositionAvailableToEat();
         this.moveAvailable();
         this.showPositionAvailable(this.generetePiece);
+        this.positionAvailable = [];
     }
 
     moveAvailable = () => {    
         this.pieceSelected(this.position);
-        this.diagonalMove(this.position, this.color);
+        this.diagonalMove();
         this.showPositionAvailableToEat(this.generetePiece);
     }
 }
