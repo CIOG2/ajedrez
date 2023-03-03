@@ -5,7 +5,7 @@ import game from 'utils/game';
 import Styles from './styles.module.scss'
 import Columns from './Column'
 
-const board = () =>{
+const Board = () =>{
     const letras = ['A','B','C','D','E','F','G','H'];
     const dataPieces = [...piecesWhite, ...piecesBlack];
     const newGame = new game();
@@ -53,4 +53,4 @@ const board = () =>{
     )
 }
 
-export default board;
+export default Board;
