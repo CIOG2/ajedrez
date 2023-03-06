@@ -1,10 +1,19 @@
-import ChessPiece from './pieceChess';
 import pawn from './pawn';
 import horse from './horse';
 import bishop from './bishop';
 import tower from './tower';
 import queen from './queen';
+import king from './king';
 import { pieceChess } from '@interfaces/index';
+
+const piecesChess = [
+    pawn,
+    horse,
+    bishop,
+    tower,
+    queen,
+    king,
+]
 
 class game{
     virtualBoard:any[] = [
@@ -32,33 +41,22 @@ class game{
         console.table(this.virtualBoard);
     }
 
+
     assignPosition({name, path, color}:pieceChess, position:string) {
         
         const y = this.letterToNumber(position[0]);
-        const x = parseInt(position[1]) - 1;
-        let piece;
+        const x = parseInt(position[1]) - 1;     
 
-        if (name === 'pawn') {
-            piece = new pawn({name, path, color, position});
+
+        const classConstructor = piecesChess.filter((piece: Function) => piece.name === name)[0];
+        const piece = new classConstructor({name, path, color, position})
+
+
+        if (piece) {
             piece.generetePiece();
-        } else if(name === 'horse'){
-            piece = new horse({name, path, color, position});
-            piece.generetePiece();
-        } else if(name === 'bishop'){
-            piece = new bishop({name, path, color, position});
-            piece.generetePiece();
-        } else if(name === 'tower'){
-            piece = new tower({name, path, color, position});
-            piece.generetePiece();
-        } else if(name === 'queen'){
-            piece = new queen({name, path, color, position});
-            piece.generetePiece();
-        }else{
-            piece = new ChessPiece({name, path, color, position});
+            this.virtualBoard[y][x] = piece;
+            piece.updateVirtualBoard(this.virtualBoard);                
         }
-        
-        this.virtualBoard[y][x] = piece;
-        piece.updateVirtualBoard(this.virtualBoard);    
     }
 
     numberToLetter = (number: number) => this.letters[number];    
