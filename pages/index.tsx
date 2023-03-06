@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
-import Board from 'components/Board'
-
+import SelectGame from 'components/SelectGame'
 
 const Home: NextPage = () => {
   return (
     <div id = 'APP'>
-      <Board/>
+      <SelectGame/>
     </div>
   )
 }
