@@ -20,15 +20,17 @@ class horse extends pieceChess{
 
 
     previewMove = () => {
-        this.removePositionAvailable();
-        this.removePositionAvailableToEat();
-        this.moveAvailable();
-        this.showPositionAvailable(this.generetePiece);
+        if (this.getTurnToMove() === this.color) {
+            this.removePositionAvailable();
+            this.removePositionAvailableToEat();
+            this.moveAvailable();
+            this.showPositionAvailable(this.generetePiece);
+            this.positionAvailable = [];                
+        }
     }
     
     moveAvailable = () => {    
         this.pieceSelected(this.position);
-
         this.positionAvailable = this.movePiece(this.position, this.color);
         this.showPositionAvailableToEat(this.generetePiece);
     }

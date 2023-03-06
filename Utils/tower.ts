@@ -20,11 +20,13 @@ class tower extends pieceChess{
 
 
     previewMove = () => {
-        this.removePositionAvailable();
-        this.removePositionAvailableToEat();
-        this.moveAvailable();
-        this.showPositionAvailable(this.generetePiece);
-        this.positionAvailable = [];
+        if (this.getTurnToMove() === this.color) {
+            this.removePositionAvailable();
+            this.removePositionAvailableToEat();
+            this.moveAvailable();
+            this.showPositionAvailable(this.generetePiece);
+            this.positionAvailable = [];                
+        }
     }
 
     moveAvailable = () => {    

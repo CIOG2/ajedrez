@@ -21,10 +21,13 @@ class pawn extends ChessPiece{
 
 
     previewMove = () => {
-        this.removePositionAvailable();
-        this.removePositionAvailableToEat();
-        this.moveAvailable();
-        this.showPositionAvailable(this.generetePiece);
+        if (this.getTurnToMove() === this.color) {
+            this.removePositionAvailable();
+            this.removePositionAvailableToEat();
+            this.moveAvailable();
+            this.showPositionAvailable(this.generetePiece);
+            this.positionAvailable = [];                
+        }
     }
 
 
