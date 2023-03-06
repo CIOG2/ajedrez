@@ -40,6 +40,13 @@ class pieceChessDom {
         const pieceMoved = document.querySelectorAll('.piece__move--show');
         pieceMoved.forEach((element) => element.remove());
     }
+
+    kingInCheck = (position: string) => {
+        const pos = document.getElementById(position);
+        const kingInCheck = document.createElement('div');
+        kingInCheck.classList.add('king__is--checked');
+        pos?.appendChild(kingInCheck);
+    }
 }
 
 export default pieceChessDom;
