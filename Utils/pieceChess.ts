@@ -7,11 +7,14 @@ interface constructorChess {
 
 }
 
+let turnToMove: string = 'white';
+
 class ChessPiece extends pieceChessDom{
     firstMovePawn: boolean = true;
     positionAvailable: string[] = [];
     positionAvailableEat: string[] = [];
     virtualBoard:any[] = [];
+    
     color: string = '';
     name: string = '';
     path: string = '';
@@ -28,21 +31,25 @@ class ChessPiece extends pieceChessDom{
     }
 
 
-    movePieceBoard = (position: string, nextPosition: string, generarPieza:any) => {
+    movePieceBoard = (position: string, nextPosition: string, generarPieza: Function) => {
         const piece = this.copyPieceVirtualBoard(position);
         if (piece.name === 'pawn')
             piece.firstMovePawn = false;     
         
         this.deletePieceDom(position);
         this.removePieceMovedPreviously();
- 
+        this.setTurnToMove();
+        
+        
         this.position = nextPosition;
         this.deletePieceVirtualBoard(position);
         this.addPieceVirtualBoard(nextPosition, piece);
- 
-
+        
+        
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
+        this.searchKing('white');
+        this.searchKing('black');
         generarPieza();
         
         this.movedPiecePreviously(position, nextPosition);
@@ -157,7 +164,7 @@ class ChessPiece extends pieceChessDom{
             //left
             {y: 0, x: -1},
             //right
-            {y: 0, x: 1}
+            {y: 0, x: 1}    
         ]
     
         moves.forEach((move) => {
@@ -188,11 +195,49 @@ class ChessPiece extends pieceChessDom{
         this.positionAvailable;
     }
 
+    searchKing = (color: string) => {
+        const virtualBoard = this.getVirtualBoard();
+        let breakFor = false;
+
+        for (let i = 0; i < virtualBoard.length; i++) {
+           
+            if (breakFor) break;
+
+            for (let j = 0; j < virtualBoard[i].length; j++) {
+                const piece = virtualBoard[i][j];
+                
+                if (piece.name === 'king' && piece.color === color) {
+                    piece.kingOnCheck(i, j, color);
+                    breakFor = true;
+                    break;
+                }
+            }
+        }
+    
+    }
+
+    OffTheBoard = (position: string) => {
+        const y = this.letterToNumber(position[0]);
+        const x = parseInt(position[1]) - 1;
+        return (y < 0 || y > 7 || x < 0 || x > 7) ? false : true;
+    }
+
+    setTurnToMove = () => {
+        if (turnToMove === 'white')
+            turnToMove = 'black';
+        else
+            turnToMove = 'white';     
+    };
+
+    getTurnToMove = () => turnToMove;
+
     numberToLetter = (number: number) => this.letters[number];    
     
     letterToNumber = (letter:string) => this.letters.indexOf(letter);
     
     updateVirtualBoard = (virtualBoard:any[][]) => this.virtualBoard = virtualBoard;
+
+    getVirtualBoard = () => this.virtualBoard;
 }
 
 export default ChessPiece;
