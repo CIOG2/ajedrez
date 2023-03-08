@@ -47,6 +47,11 @@ class pieceChessDom {
         kingInCheck.classList.add('king__is--checked');
         pos?.appendChild(kingInCheck);
     }
+
+    removeKingInCheck = () => {
+        const kingInCheck = document.querySelector('.king__is--checked');
+        kingInCheck?.remove();
+    }
 }
 
 export default pieceChessDom;
