@@ -1,12 +1,11 @@
 import pieceChessDom from "./pieceChessDom";
-interface constructorChess {
-    name: string;
-    path: string;
-    color: string;
-    position: string;
-}
+import { kingsState, constructorChess } from "@interfaces/index";
 
 let turnToMove: string = 'white';
+const kings: kingsState = {
+    white: false,
+    black: false,
+};
 
 class ChessPiece extends pieceChessDom{
     firstMovePawn: boolean = true;
@@ -234,6 +233,19 @@ class ChessPiece extends pieceChessDom{
         return (y < 0 || y > 7 || x < 0 || x > 7) ? false : true;
     }
 
+    setKingState = (color: string, state: boolean) => {
+        if (color === 'white')
+            kings.white = state;
+        else
+            kings.black = state;
+    };
+
+    getKingState = (color: string) => {
+        return (color === 'white')
+            ? kings.white
+            : kings.black
+    }
+    
     setTurnToMove = () => {
         if (turnToMove === 'white')
             turnToMove = 'black';
