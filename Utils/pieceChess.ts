@@ -4,7 +4,6 @@ interface constructorChess {
     path: string;
     color: string;
     position: string;
-
 }
 
 let turnToMove: string = 'white';
@@ -33,9 +32,16 @@ class ChessPiece extends pieceChessDom{
 
     movePieceBoard = (position: string, nextPosition: string, generarPieza: Function) => {
         const piece = this.copyPieceVirtualBoard(position);
-        if (piece.name === 'pawn')
-            piece.firstMovePawn = false;     
         
+        //Eliminar primer movimiento del peon
+        if (piece.name === 'pawn')
+            piece.firstMovePawn = false;
+            
+        //Eliminar jaque si se mueve el rey
+        if (piece.name === 'king')
+            this.removeKingInCheck();
+        
+
         this.deletePieceDom(position);
         this.removePieceMovedPreviously();
         this.setTurnToMove();
@@ -48,10 +54,16 @@ class ChessPiece extends pieceChessDom{
         
         this.removePositionAvailable();
         this.removePositionAvailableToEat();
-        this.searchKing('white');
-        this.searchKing('black');
-        generarPieza();
         
+
+        //Buscar si el rey oponente esta en jaque
+        if (piece.color === 'white')
+            this.searchKing('black');
+        else
+            this.searchKing('white');
+        
+        
+        generarPieza();
         this.movedPiecePreviously(position, nextPosition);
     }
 
@@ -207,13 +219,13 @@ class ChessPiece extends pieceChessDom{
                 const piece = virtualBoard[i][j];
                 
                 if (piece.name === 'king' && piece.color === color) {
-                    piece.kingOnCheck(i, j, color);
+                    const kingIsSelect = false;
+                    piece.kingOnCheck(i, j, color, kingIsSelect);
                     breakFor = true;
                     break;
                 }
             }
         }
-    
     }
 
     OffTheBoard = (position: string) => {
