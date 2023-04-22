@@ -234,23 +234,22 @@ class ChessPiece extends pieceChessDom{
     }
 
     setKingState = (color: string, state: boolean) => {
-        if (color === 'white')
-            kings.white = state;
-        else
-            kings.black = state;
+        (color === 'white')
+            ? kings.white = state
+            : kings.black = state;
     };
 
     getKingState = (color: string) => {
         return (color === 'white')
             ? kings.white
             : kings.black
-    }
+    
+    }   
     
     setTurnToMove = () => {
-        if (turnToMove === 'white')
-            turnToMove = 'black';
-        else
-            turnToMove = 'white';     
+        (turnToMove === 'white')
+            ? turnToMove = 'black'
+            : turnToMove = 'white';     
     };
 
     getTurnToMove = () => turnToMove;

@@ -38,7 +38,6 @@ class game{
         
         const button = document.querySelector('#buttonStart');
         button?.remove();    
-        console.table(this.virtualBoard);
     }
 
 
