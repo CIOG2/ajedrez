@@ -1,6 +1,6 @@
 import piecesWhite from "@datos/PiecesWhite";
 import piecesBlack from "@datos/PiecesBlack";
-import game from "../../utils/game";
+import game from "@utils/game";
 import Styles from './styles.module.scss'
 import Columns from './Column'
 
