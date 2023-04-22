@@ -19,8 +19,8 @@
       "@styles/*": [
         "styles/*"
       ],
-      "@Components/*": [
-        "Components/*"
+      "@components/*": [
+        "components/*"
       ],
       "@assets/*": [
         "assets/*"
