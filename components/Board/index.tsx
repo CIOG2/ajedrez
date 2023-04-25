@@ -7,8 +7,7 @@ import Columns from './Column'
 const Board = () =>{
     const letras = ['A','B','C','D','E','F','G','H'];
     const dataPieces = [...piecesWhite, ...piecesBlack];
-    const newGame = new game();
-
+    const { startGame } = new game();
 
     return(
         <main className = {`${Styles['main']}`}>
@@ -43,7 +42,7 @@ const Board = () =>{
 
             <button 
                 className = {`${Styles['button__start']}`}
-                onClick = {() => newGame.startGame(dataPieces)}
+                onClick = {() => startGame(dataPieces)}
                 id = 'buttonStart'
             >
                 Iniciar
